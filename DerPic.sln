@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DerPic", "DerPic\DerPic.csproj", "{57AA5758-7DA0-40B2-9227-6EADB2D9954F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DerPic Viewer", "DerPic Viewer\DerPic Viewer.csproj", "{78EDC35B-C79E-4475-8D68-31743B30973D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{57AA5758-7DA0-40B2-9227-6EADB2D9954F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57AA5758-7DA0-40B2-9227-6EADB2D9954F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57AA5758-7DA0-40B2-9227-6EADB2D9954F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78EDC35B-C79E-4475-8D68-31743B30973D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78EDC35B-C79E-4475-8D68-31743B30973D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78EDC35B-C79E-4475-8D68-31743B30973D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78EDC35B-C79E-4475-8D68-31743B30973D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

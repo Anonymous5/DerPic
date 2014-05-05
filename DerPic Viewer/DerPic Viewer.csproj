@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{57AA5758-7DA0-40B2-9227-6EADB2D9954F}</ProjectGuid>
+    <ProjectGuid>{78EDC35B-C79E-4475-8D68-31743B30973D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DerPic</RootNamespace>
-    <AssemblyName>DerPic</AssemblyName>
+    <RootNamespace>DerPic_Viewer</RootNamespace>
+    <AssemblyName>DerPic Viewer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,7 +34,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,24 +44,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="Borders Controls\ControlPanelControl.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="Borders Controls\BorderBottomControl.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ImageInformation.cs" />
-    <Compile Include="ImageInformationList.cs" />
+    <Compile Include="Borders Controls\BorderLeftControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Borders Controls\BorderTopControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Borders Controls\BorderRightControl .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Borders Controls\CornerTRControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Borders Controls\CornerTLControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Borders Controls\CornerBLControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Borders Controls\CornerBRControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewerForm.Designer.cs">
+      <DependentUpon>ViewerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -71,22 +87,68 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="ViewerForm.resx">
+      <DependentUpon>ViewerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DerPic Viewer\DerPic Viewer.csproj">
-      <Project>{78edc35b-c79e-4475-8d68-31743b30973d}</Project>
-      <Name>DerPic Viewer</Name>
-    </ProjectReference>
+    <None Include="Properties\buttonClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\buttonCloseS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\buttonMaximize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\buttonMaximizeS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\buttonMinimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\buttonMinimizeS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\buttonNormalize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\buttonNormalizeS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\corner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\cornerS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\GrabCursor.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\HandCursor.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\preloader.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\background.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

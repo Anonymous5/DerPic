@@ -38,11 +38,11 @@ namespace DerPic
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			if (DerPicSettings.Default.WindowSize != null)
-				Size = DerPicSettings.Default.WindowSize;
+			if (Properties.Settings.Default.WindowSize != null)
+                Size = Properties.Settings.Default.WindowSize;
 			else
 				Size = new Size(800, 600);
-			WindowState = DerPicSettings.Default.WindowState;
+            WindowState = Properties.Settings.Default.WindowState;
 
 			GetImageList();
 			var lst = new List<string>();
@@ -54,12 +54,12 @@ namespace DerPic
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			DerPicSettings.Default.WindowState = WindowState;
+            Properties.Settings.Default.WindowState = WindowState;
 			if (this.WindowState == FormWindowState.Normal)
-				DerPicSettings.Default.WindowSize = Size;
+                Properties.Settings.Default.WindowSize = Size;
 			else
-				DerPicSettings.Default.WindowSize = RestoreBounds.Size;
-			DerPicSettings.Default.Save();
+                Properties.Settings.Default.WindowSize = RestoreBounds.Size;
+			Properties.Settings.Default.Save();
 		}
 
 		private void listBox1_DoubleClick(object sender, EventArgs e)
@@ -70,7 +70,7 @@ namespace DerPic
 				item = listBox1.SelectedItem.ToString();
 			if (!string.IsNullOrEmpty(item))
 			{
-				var viewer = new ViewerForm();
+				var viewer = new DerPic_Viewer.ViewerForm();
 				viewer.ImgURL = item;
 				viewer.ShowDialog();
 			}

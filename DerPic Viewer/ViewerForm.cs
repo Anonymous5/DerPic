@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Windows;
 
 namespace DerPic_Viewer
 {
@@ -17,19 +18,13 @@ namespace DerPic_Viewer
 		Image image;
 		float imgScale;
 		float minScale;
-		int imgOffsetX;
-		int imgOffsetY;
+		float imgOffsetX;
+		float imgOffsetY;
 		int xPos;
 		int yPos;
-        int xLoc;
-        int yLoc;
-        int wSize;
-        int hSize;
 		bool dragging;
-		bool draggingW;
 		Cursor hand;
 		Cursor grab;
-		bool scaling;
 		bool firstimage;
 
 		public ViewerForm()
@@ -41,17 +36,17 @@ namespace DerPic_Viewer
 		void Centrize()
 		{
 			Location = new Point((SystemInformation.VirtualScreen.Width - Size.Width) / 2,
-				(SystemInformation.VirtualScreen.Height - Size.Height) / 2);
+				(SystemInformation.VirtualScreen.Height - 40 - Size.Height) / 2);
 		}
 
 		void ShiftAfterZoom(float newScale, int mouseX, int mouseY)
 		{
 			var oldScale = imgScale;
 			imgScale = newScale;
-			var dx = (float)((image.Width * oldScale - pictureBoxView.Width) / 2 - imgOffsetX + mouseX) / image.Width / oldScale - 0.5f;
-			var dy = (float)((image.Height * oldScale - pictureBoxView.Height) / 2 - imgOffsetY + mouseY) / image.Height / oldScale - 0.5f;
-			imgOffsetX -= (int)(dx * image.Width * (imgScale - oldScale));
-			imgOffsetY -= (int)(dy * image.Height * (imgScale - oldScale));
+			float dx = ((image.Width * oldScale - pictureBoxView.Width) / 2 - imgOffsetX + mouseX) / image.Width / oldScale - 0.5f;
+			float dy = ((image.Height * oldScale - pictureBoxView.Height) / 2 - imgOffsetY + mouseY) / image.Height / oldScale - 0.5f;
+			imgOffsetX -= dx * image.Width * (imgScale - oldScale);
+			imgOffsetY -= dy * image.Height * (imgScale - oldScale);
 		}
 
 		bool CanDrag()
@@ -62,40 +57,21 @@ namespace DerPic_Viewer
 
 		private void ViewerForm_Load(object sender, EventArgs e)
 		{
-            labelViewer.Capture = false;
-            BorderLeft.Parent = pictureBoxBackground;
-            BorderRight.Parent = pictureBoxBackground;
-            BorderTop.Parent = pictureBoxBackground;
-            BorderBottom.Parent = pictureBoxBackground;
-            CornerBL.Parent = pictureBoxBackground;
-            CornerBR.Parent = pictureBoxBackground;
-            CornerTL.Parent = pictureBoxBackground;
-            CornerTR.Parent = pictureBoxBackground;
-            CornerBL.BackColor = Color.Transparent;
-            CornerBR.BackColor = Color.Transparent;
-            CornerTL.BackColor = Color.Transparent;
-            CornerTR.BackColor = Color.Transparent;
-            BorderBottom.BackColor = Color.Transparent;
-            BorderTop.BackColor = Color.Transparent;
-            BorderRight.BackColor = Color.Transparent;
-            BorderLeft.BackColor = Color.Transparent;
-            ControlPanel.Parent = pictureBoxBackground;
-            ControlPanel.BackColor = Color.Transparent;
+			this.SetStyle(ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.SupportsTransparentBackColor, true);
             if (!String.IsNullOrEmpty(ImgURL))
             {
                 firstimage = true;
                 pictureBoxView.ImageLocation = ImgURL;
-                Centrize();
             }
             else if (Environment.GetCommandLineArgs().Length > 1)
             {
                 pictureBoxView.ImageLocation = Environment.GetCommandLineArgs()[1];
-                Centrize();
             }
             else
             {
                 Close();
             }
+			Centrize();
 			using (var memoryStream = new MemoryStream(Properties.Resources.HandCursor))
 				hand = new Cursor(memoryStream);
             using (var memoryStream = new MemoryStream(Properties.Resources.GrabCursor))
@@ -109,12 +85,15 @@ namespace DerPic_Viewer
 			if (firstimage)
 			{
 				firstimage = false;
-				if (image.Width > SystemInformation.VirtualScreen.Width - 24 ||
-					image.Height > SystemInformation.VirtualScreen.Height - 36)
+				if (image.Width > SystemInformation.VirtualScreen.Width - 2 * borderW ||
+					image.Height > SystemInformation.VirtualScreen.Height - 40 - 3 * borderW - upperPanelH)
+				{
 					WindowState = FormWindowState.Maximized;
+					ButtonExpander.Image = Properties.Resources.buttonNormalize;
+				}
 				else
 				{
-					Size = new Size(image.Width + 24, image.Height + 36);
+					Size = new Size(image.Width + 2 * borderW, image.Height + 3 * borderW + upperPanelH);
 					Centrize();
 				}
 					
@@ -129,7 +108,7 @@ namespace DerPic_Viewer
 		void MinScale()
 		{
 			if (image == null) return;
-			minScale = 1;
+			minScale = 1.0f;
 			if (image.Width > pictureBoxView.Width)
 				minScale = (float)pictureBoxView.Width / image.Width;
 			if (image.Height * minScale > pictureBoxView.Height)
@@ -164,6 +143,8 @@ namespace DerPic_Viewer
 				(int)((pictureBoxView.Height - image.Height * imgScale) / 2 + imgOffsetY),
 				(int)(image.Width * imgScale),
 				(int)(image.Height * imgScale)));
+			e.Graphics.DrawRectangle(new Pen(Color.Gray), 0, 0, pictureBoxView.Size.Width - 1, 
+				pictureBoxView.Size.Height - 1);
 		}
 
 		private void pictureBoxView_MouseWheel(object sender, MouseEventArgs e)
@@ -268,34 +249,29 @@ namespace DerPic_Viewer
 		{
 			if (WindowState == FormWindowState.Normal)
 			{
-				pictureBoxView.Location = new Point(6, 36);
-			    pictureBoxView.Size = new Size(Size.Width - 12, Size.Height - 42);
-                ControlPanel.Location = new Point(6, 6);
-                ControlPanel.Size = new Size(Size.Width - 12, 30);
-				BorderRight.Visible = true;
-				BorderBottom.Visible = true;
-                BorderLeft.Visible = true;
-                BorderTop.Visible = true;
-				CornerBR.Visible = true;
-                CornerBL.Visible = true;
-                CornerTR.Visible = true;
-                CornerTL.Visible = true;
+				pictureBoxView.Location = new Point(borderW, upperPanelH + 2 * borderW);
+				pictureBoxView.Size = new Size(Size.Width - 2 * borderW, Size.Height - upperPanelH - 3 * borderW);
+				ButtonClose.Location = new Point(Size.Width - borderW - ButtonClose.Size.Width, borderW);
+				ButtonExpander.Location = new Point(Size.Width - borderW - 2 * ButtonExpander.Size.Width, borderW);
+				ButtonMinimize.Location = new Point(Size.Width - borderW - 3 * ButtonMinimize.Size.Width, borderW);
+				labelViewer.Location = new Point(borderW, borderW);
 			}
+
 			if (WindowState == FormWindowState.Maximized)
 			{
-				pictureBoxView.Location = new Point(0, 24);
-				pictureBoxView.Size = new Size(Size.Width, Size.Height - 24);
-                ControlPanel.Location = new Point(0, 0);
-                ControlPanel.Size = new Size(Size.Width, 24);
-                BorderRight.Visible = false;
-                BorderBottom.Visible = false;
-                BorderLeft.Visible = false;
-                BorderTop.Visible = false;
-                CornerBR.Visible = false;
-                CornerBL.Visible = false;
-                CornerTR.Visible = false;
-                CornerTL.Visible = false;
+				pictureBoxView.Location = new Point(0, upperPanelH + 2 * borderW);
+				pictureBoxView.Size = new Size(Size.Width, Size.Height - upperPanelH - 2 * borderW);
+				ButtonClose.Location = new Point(Size.Width - borderW - ButtonClose.Size.Width, borderW);
+				ButtonExpander.Location = new Point(Size.Width - borderW - 2 * ButtonExpander.Size.Width, borderW);
+				ButtonMinimize.Location = new Point(Size.Width - borderW - 3 * ButtonMinimize.Size.Width, borderW);
+				labelViewer.Location = new Point(borderW, borderW);
 			}
+			//this.Update();
+		}
+
+		private void ViewerForm_Paint(object sender, PaintEventArgs e)
+		{
+			e.Graphics.DrawRectangle(new Pen(Color.Gray), 0, 0, Size.Width - 1, Size.Height - 1);
 		}
 	}
 }

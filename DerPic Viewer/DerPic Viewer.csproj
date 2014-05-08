@@ -32,8 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,31 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Borders Controls\ControlPanelControl.cs">
+    <Compile Include="Form controls\WindowStateControls.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Borders Controls\BorderBottomControl.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Borders Controls\BorderLeftControl.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Borders Controls\BorderTopControl.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Borders Controls\BorderRightControl .cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Borders Controls\CornerTRControl.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Borders Controls\CornerTLControl.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Borders Controls\CornerBLControl.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Borders Controls\CornerBRControl.cs">
+    <Compile Include="Form controls\BordersControl.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ViewerForm.cs">
